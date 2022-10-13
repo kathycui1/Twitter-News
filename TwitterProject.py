@@ -1,16 +1,22 @@
 import tweepy
 from newsapi import NewsApiClient
 import datetime, time
+import yaml
+import json
 
-api_news_key = '4f56344553134c8d8b8e11fd46fca307'
+API_CONFIG_FILE = 'auth.yaml'
+with open(API_CONFIG_FILE, 'r') as config_file:
+    config = yaml.load(config_file)
+
+api_news_key = config['news']['api_news_key']
 newsapi = NewsApiClient(api_key=api_news_key)
-top_headlines = newsapi.get_top_headlines(language='en',
-										country='ca')
+top_headlines = newsapi.get_top_headlines(language='en', country='ca')
 articles = top_headlines['articles']
-api_key = 'Z5KFVXPqzakGbKVSMlqtRTIYx'
-api_secret = 'j32OIq9AgrLaz26gI2wWWGYtpk4Ej9Pz481zNTTfnFbXQUAdm7'
-access_token = '1388990186764357643-gxDUtr29IihfZqIm0YLPrL1GlFVn2E'
-access_token_secret = 'lpUaLrjeU1Oc08QOXnsrhWByUAH4X4RjCa5ukHPqjUSPZ'
+
+api_key = config['twitter']['api_key']
+api_secret = config['twitter']['api_secret']
+access_token = config['twitter']['api_token']
+access_token_secret = config['twitter']['api_token_secret']
 auth = tweepy.OAuthHandler(api_key, api_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
